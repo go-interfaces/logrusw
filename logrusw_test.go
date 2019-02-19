@@ -90,3 +90,50 @@ func TestLogger(t *testing.T) {
 		}
 	}
 }
+
+func TestLeveled(t *testing.T) {
+
+	var testData = []struct {
+		testName     string
+		verbosity    int
+		msg          string
+		entryLevel   int
+		outputExpect bool
+	}{
+		{
+			testName:     "simple",
+			verbosity:    5,
+			msg:          "log test",
+			entryLevel:   1,
+			outputExpect: true,
+		},
+		{
+			testName:     "level equals verbosity",
+			verbosity:    5,
+			msg:          "log test",
+			entryLevel:   5,
+			outputExpect: true,
+		},
+		{
+			testName:     "level greater than verbosity",
+			verbosity:    5,
+			msg:          "log test",
+			entryLevel:   6,
+			outputExpect: false,
+		},
+	}
+
+	for _, td := range testData {
+		lgrus := logrus.New()
+		var buffer bytes.Buffer
+		lgrus.Out = &buffer
+		l := NewLogger(lgrus, td.verbosity, "")
+
+		l.V(td.entryLevel).Info(td.msg)
+		if td.outputExpect {
+			assert.Contains(t, buffer.String(), logrusMessageLabel+"=\""+td.msg+"\"")
+		} else {
+			assert.Zero(t, len(buffer.String()))
+		}
+	}
+}

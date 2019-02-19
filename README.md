@@ -39,7 +39,7 @@ Use log
 ```go
 import (
     "github.com/go-interfaces/log"
- )	
+ )
 
 // DoSomenthing uses the default logger
 func DoSomething(param string) {
