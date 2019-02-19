@@ -137,3 +137,12 @@ func TestLeveled(t *testing.T) {
 		}
 	}
 }
+
+func TestSetLevel(t *testing.T) {
+	lgrus := logrus.New()
+	l := NewLogger(lgrus, 1, "")
+	assert.EqualValues(t, l.verbosity, 1)
+
+	l.SetLevel(2)
+	assert.EqualValues(t, l.verbosity, 2)
+}
