@@ -14,7 +14,7 @@ var _ log.Logger = (*Logger)(nil)
 // nolog is the reference noop logger.
 // It will be returned when V(int) is called with a disabled log level.
 // It is safe to use it as a global variable that might be used by multiple threads
-// because no variables are modified withing its implementation
+// because no variables are modified within its implementation
 var nolog = &log.NoLog{}
 
 // Logger wraps logrus logger in go-interfaces logger
