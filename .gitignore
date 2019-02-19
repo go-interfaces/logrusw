@@ -10,3 +10,22 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Editors
+.vscode
+**/*~
+**/*.bak
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
