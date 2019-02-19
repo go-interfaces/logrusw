@@ -7,10 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-const (
-	defaultVerbosity = 1
-	loggerLabel      = "logger"
-)
+const loggerLabel = "logger"
 
 var _ log.Logger = (*Logger)(nil)
 
@@ -39,7 +36,7 @@ func NewLogger(l *logrus.Logger, verbosity int, optLogName string) *Logger {
 	return &Logger{
 		log:       l,
 		name:      optLogName,
-		verbosity: defaultVerbosity,
+		verbosity: verbosity,
 		logName:   len(optLogName) != 0,
 	}
 }
@@ -57,7 +54,7 @@ func (l *Logger) Info(msg string, kv ...log.KV) {
 	fl.Info(msg)
 }
 
-// func (l *NoLog) Error(err error, msg string, kv ...KV) {}
+// Error logs error messages
 func (l *Logger) Error(err error, msg string, kv ...log.KV) {
 	if l.logName {
 		kv = append(kv, log.KV{K: loggerLabel, V: l.name})
@@ -73,16 +70,13 @@ func (l *Logger) Error(err error, msg string, kv ...log.KV) {
 	fl.Error(msg)
 }
 
-// V will return its same NoLog instance
+// V will return a reference to the logger if the verbosity level is supported,
+// otherwise a NoLog logger is returned
 func (l *Logger) V(level int) log.InfoWriter {
 	if level > l.verbosity {
 		return nolog
 	}
-	return &Logger{
-		name:      l.name,
-		log:       l.log,
-		verbosity: l.verbosity,
-	}
+	return l
 }
 
 // SetLevel wont do anything
