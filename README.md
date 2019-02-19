@@ -44,9 +44,21 @@ import (
 // DoSomenthing uses the default logger
 func DoSomething(param string) {
     log.Info("about to do something...")
-
     if err := something(param); err != nil {
         log.Error(err, "error trying to do something", log.KV{"param", param})
+    }
+}
+
+// DoSomethingElse uses a non default logger
+func DoSomethingElse(param string) error {
+    err, l := log.GetLogger("jobs")
+    if err != nil {
+        return err
+    }
+
+    l.Info("about to do something else...")
+    if err := somethingElse(param); err != nil {
+        l.Error(err, "error trying to do something else", log.KV{"param", param})
     }
 }
 ```
